@@ -13,7 +13,7 @@
 This repository contains the code for Zill Sindhwaad's professional portfolio website, showcasing product design work with a focus on B2B solutions and complex systems. The site features a clean, modern design with optimized performance and SEO.
 
 <div align="center">
-  <img src="https://github.com/user-attachments/assets/d574802d-d101-4680-b612-9c493d166a6c" />" alt="Portfolio Preview" width="80%" />
+  <img width="80%" alt="Portfolio Preview" src="https://github.com/user-attachments/assets/d574802d-d101-4680-b612-9c493d166a6c" />
 </div>
 
 ## 🎨 Features
