@@ -4,7 +4,7 @@
   <img src="images/heart.svg" alt="Zill Sindhwaad Logo" width="120" />
   <h3>A Digital Product Designer with a passion for solving B2B challenges and figuring out complex systems.</h3>
   
-  [![Website](https://img.shields.io/badge/View_Site-zillsindhwaad.com-9333EA?style=for-the-badge)](https://www.zillsindhwaad.com)
+  [![Website](https://img.shields.io/badge/View_Site-zillsindhwaad.me-9333EA?style=for-the-badge)](https://www.zillsindhwaad.me)
   [![LinkedIn](https://img.shields.io/badge/LinkedIn-Connect-0A66C2?style=for-the-badge&logo=linkedin)](https://www.linkedin.com/in/zill-sindhwaad)
 </div>
 
@@ -13,7 +13,7 @@
 This repository contains the code for Zill Sindhwaad's professional portfolio website, showcasing product design work with a focus on B2B solutions and complex systems. The site features a clean, modern design with optimized performance and SEO.
 
 <div align="center">
-  <img width="80%" height="85%" alt="Portfolio Preview" src="https://github.com/user-attachments/assets/92f4f3b6-9e56-41b6-a824-4585772a0c8f" />
+  <img src="images/student%20care%20stack%20image%201.png" alt="Portfolio Preview" width="80%" />
 </div>
 
 ## 🎨 Features

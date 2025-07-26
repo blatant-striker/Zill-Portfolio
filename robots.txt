@@ -1,4 +1,4 @@
-# robots.txt for zillsindhwaad.com
+# robots.txt for zillsindhwaad.me
 User-agent: *
 Allow: /
 Allow: /images/
@@ -6,4 +6,4 @@ Allow: /studentkare-project.html
 Allow: /index.html
 
 # Sitemap location
-Sitemap: https://www.zillsindhwaad.com/sitemap.xml 
+Sitemap: https://www.zillsindhwaad.me/sitemap.xml 
