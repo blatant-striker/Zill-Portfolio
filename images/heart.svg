@@ -1,0 +1,31 @@
+<svg width="30" height="47" viewBox="-5 -5 35 52" fill="none" xmlns="http://www.w3.org/2000/svg" overflow="visible">
+<style>
+  .heart {
+    animation: heartbeat 1.5s ease-in-out infinite;
+    transform-origin: center;
+    transform-box: fill-box;
+  }
+  
+  @keyframes heartbeat {
+    0% {
+      transform: scale(1);
+    }
+    15% {
+      transform: scale(1.15);
+    }
+    30% {
+      transform: scale(1);
+    }
+    45% {
+      transform: scale(1.15);
+    }
+    60% {
+      transform: scale(1);
+    }
+    100% {
+      transform: scale(1);
+    }
+  }
+</style>
+<path class="heart" d="M15.3804 33.3106C14.317 33.3106 14.1322 32.5407 13.3773 31.8899C11.0566 29.8869 9.07814 27.1152 7.47718 24.5002C5.2853 20.9212 3.21708 16.9766 2.28774 12.8486C1.91028 11.1709 1.92069 8.45552 2.22266 6.77112C2.6639 4.31011 4.23492 7.01614 4.91435 7.55842C7.62166 9.71682 9.44909 14.4969 10.3628 17.7452C10.7038 18.9583 11.5043 19.7818 11.5043 17.8764C11.5043 14.5786 12.2553 12.2167 13.743 9.3071C14.5305 7.76864 19.06 -0.917173 21.1087 3.00999C22.2515 5.2032 21.9691 7.695 21.9691 10.2912C21.9691 15.7542 19.6783 20.8864 18.0721 26.0521C17.0725 29.2669 16.0221 32.625 14.6047 35.6712C14.2129 36.5147 13.6884 39.6787 13.0545 40" stroke="#A628FA" stroke-width="3" stroke-miterlimit="10" stroke-linecap="round"/>
+</svg>

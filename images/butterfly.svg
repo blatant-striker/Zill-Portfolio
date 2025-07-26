@@ -1,0 +1,48 @@
+<svg width="920" height="544" viewBox="0 0 920 544" fill="none" xmlns="http://www.w3.org/2000/svg">
+<style>
+  .butterfly-path {
+    stroke-dasharray: 2500;
+    stroke-dashoffset: 2500;
+    animation: draw 4s ease forwards;
+    transform-origin: left;
+  }
+  
+  @keyframes draw {
+    to {
+      stroke-dashoffset: 0;
+      stroke: #A628FA;
+      stroke-width: 3;
+    }
+  }
+  
+  @keyframes float {
+    0% {
+      transform: rotate(0deg);
+    }
+    50% {
+      transform: rotate(3deg);
+    }
+    100% {
+      transform: rotate(-1.5deg);
+    }
+  }
+  
+  .butterfly-container {
+    animation: float 5s ease-in-out 3s infinite alternate;
+    transform-origin: 83px 503px; /* Approximate left-most point of the butterfly path */
+  }
+</style>
+<g clip-path="url(#clip0_1_19)">
+<mask id="mask0_1_19" style="mask-type:luminance" maskUnits="userSpaceOnUse" x="0" y="-122" width="920" height="693">
+<path d="M920 -121.827H0V570.537H920V-121.827Z" fill="white"/>
+</mask>
+<g mask="url(#mask0_1_19)" class="butterfly-container">
+<path class="butterfly-path" d="M82.8458 503.311C104.302 475.692 161.002 392.839 236.137 397.411C311.273 401.983 352.7 472.526 420.166 470.966C487.633 469.405 532.087 438.71 545.112 417.23C558.137 395.75 542.021 354.342 523.622 358.951C505.224 363.56 496.047 421.084 558.928 457.873C621.809 494.662 704.613 503.832 762.871 482.335C821.129 460.837 857.137 397.166 861.718 347.313C866.298 297.46 838.676 240.716 797.266 215.424C755.856 190.131 720.589 190.144 748.201 219.278C775.812 248.411 837.144 244.552 821.802 223.85C806.461 203.149 748.947 168.659 719.041 152.565C689.135 136.471 603.255 102.759 623.2 131.895C643.144 161.031 693.757 192.456 709.089 190.149C724.422 187.842 737.452 180.934 748.953 183.998C760.455 187.061 781.926 197.79 797.252 180.911C812.579 164.032 837.869 139.48 863.931 127.965C889.993 116.451 895.352 96.508 893.813 81.9366C892.274 67.3652 878.455 19.053 863.123 22.1268C847.791 25.2006 821.74 64.3252 801.822 103.447C781.904 142.57 781.912 162.51 784.983 174.013C788.054 185.516 813.362 206.214 835.597 210.807C857.832 215.4 870.859 199.289 884.652 180.876C898.445 162.464 892.302 138.691 839.408 152.517" stroke="#A628FA" stroke-width="3" stroke-linecap="round"/>
+</g>
+</g>
+<defs>
+<clipPath id="clip0_1_19">
+<rect width="920" height="544" fill="white"/>
+</clipPath>
+</defs>
+</svg>

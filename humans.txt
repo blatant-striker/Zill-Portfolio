@@ -1,0 +1,11 @@
+/* TEAM */
+	Designer & Developer: Zill Sindhwaad
+	Contact: zillsindhwaad@gmail.com
+	LinkedIn: https://www.linkedin.com/in/zill-sindhwaad
+	Location: Calgary, Alberta, Canada
+
+/* SITE */
+	Last update: 2025-07-25
+	Standards: HTML5, CSS3, ES6
+	Components: None
+	Software: Visual Studio Code, Figma 
