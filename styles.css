@@ -12,7 +12,6 @@
 * {
     margin: 0;
     padding: 0;
-    box-sizing: border-box;
 }
 
 body {
@@ -719,34 +718,86 @@ footer .contact-methods {
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
 }
 
-.banner-track {
-    display: flex;
-    transition: transform 0.4s ease;
-    width: 100%;
+/* For desktop, show slides side by side */
+@media (min-width: 768px) {
+    .project-banner {
+        background-color: #f8f8f8;
+        padding: 40px;
+        border-radius: 10px;
+        margin-bottom: 40px;
+    }
+    
+    .banner-carousel {
+        overflow: visible;
+        box-shadow: none;
+        height: 420px;
+        margin-bottom: 0;
+        background-color: transparent;
+        padding: 0;
+        border-radius: 0;
+    }
+    
+    .banner-track {
+        display: flex;
+        flex-wrap: nowrap;
+        gap: 20px;
+        transform: none !important; /* Prevent any JS transformation */
+        transition: none;
+        height: 100%;
+    }
+    
+    .banner-slide {
+        min-width: calc(50% - 10px);
+        flex: 0 0 calc(50% - 10px);
+        height: 100%;
+    }
+    
+    .banner-slide img {
+        width: 100%;
+        height: 100%;
+        display: block;
+        object-fit: cover;
+        border-radius: 8px;
+        /* box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08); */
+    }
+    
+    /* Hide carousel controls on desktop */
+    .banner-dots {
+        display: none;
+    }
 }
 
-.banner-slide {
-    min-width: 100%;
-    flex: 1 0 100%;
-}
-
-.banner-slide img {
-    width: 100%;
-    display: block;
-    aspect-ratio: 16/9;
-    object-fit: cover;
-    user-select: none;
-    -webkit-user-drag: none;
-    pointer-events: none;
-}
-
-.banner-dots {
-    display: flex;
-    justify-content: center;
-    position: absolute;
-    bottom: 15px;
-    width: 100%;
-    gap: 8px;
+/* For mobile, maintain carousel behavior */
+@media (max-width: 767px) {
+    .banner-track {
+        display: flex;
+        transition: transform 0.4s ease;
+        width: 100%;
+    }
+    
+    .banner-slide {
+        min-width: 100%;
+        flex: 1 0 100%;
+    }
+    
+    .banner-slide img {
+        width: 100%;
+        display: block;
+        aspect-ratio: 16/9;
+        object-fit: cover;
+        user-select: none;
+        -webkit-user-drag: none;
+        pointer-events: none;
+    }
+    
+    .banner-dots {
+        display: flex;
+        justify-content: center;
+        position: absolute;
+        bottom: 15px;
+        width: 100%;
+        gap: 8px;
+    }
 }
 
 /* Original banner styles for backward compatibility */

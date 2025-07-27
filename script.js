@@ -3,7 +3,32 @@ document.addEventListener('DOMContentLoaded', function() {
     const navLinks = document.querySelectorAll('nav a');
     
     // Mobile detection
-    const isMobile = window.innerWidth <= 767;
+    let isMobile = window.innerWidth <= 767;
+    
+    // Handle window resize events
+    window.addEventListener('resize', function() {
+        const wasMobile = isMobile;
+        isMobile = window.innerWidth <= 767;
+        
+        // If switching between mobile and desktop, refresh banner carousel
+        if (wasMobile !== isMobile) {
+            const bannerCarousel = document.querySelector('.banner-carousel');
+            if (bannerCarousel) {
+                const bannerTrack = bannerCarousel.querySelector('.banner-track');
+                
+                if (isMobile) {
+                    // Switch to mobile mode - allow transform to work
+                    bannerTrack.style.transition = 'transform 0.4s ease';
+                    // Initialize at first slide
+                    bannerTrack.style.transform = 'translateX(0%)';
+                } else {
+                    // Switch to desktop mode - reset transform and transition
+                    bannerTrack.style.transform = 'none';
+                    bannerTrack.style.transition = 'none';
+                }
+            }
+        }
+    });
     
     // Banner carousel functionality
     const bannerCarousel = document.querySelector('.banner-carousel');
@@ -15,90 +40,97 @@ document.addEventListener('DOMContentLoaded', function() {
         let bannerIndex = 0;
         const bannerCount = bannerSlides.length;
         
-        // Initialize banner carousel
-        function updateBannerCarousel() {
-            bannerTrack.style.transform = `translateX(-${bannerIndex * 100}%)`;
-            
-            // Update active dot
-            bannerDots.forEach(dot => dot.classList.remove('active'));
-            bannerDots[bannerIndex].classList.add('active');
-        }
-        
-        // Auto-advance banner every 3 seconds
-        let bannerInterval = setInterval(() => {
-            bannerIndex = (bannerIndex + 1) % bannerCount;
-            updateBannerCarousel();
-        }, 3000);
-        
-        // Dot navigation for banner
-        bannerDots.forEach(dot => {
-            dot.addEventListener('click', () => {
-                bannerIndex = parseInt(dot.getAttribute('data-index'));
-                updateBannerCarousel();
+        // Only initialize banner carousel on mobile
+        if(window.innerWidth <= 767) {
+            // Initialize banner carousel
+            function updateBannerCarousel() {
+                bannerTrack.style.transform = `translateX(-${bannerIndex * 100}%)`;
                 
-                // Reset interval on manual navigation
+                // Update active dot
+                bannerDots.forEach(dot => dot.classList.remove('active'));
+                bannerDots[bannerIndex].classList.add('active');
+            }
+            
+            // Auto-advance banner every 3 seconds
+            let bannerInterval = setInterval(() => {
+                bannerIndex = (bannerIndex + 1) % bannerCount;
+                updateBannerCarousel();
+            }, 3000);
+            
+            // Dot navigation for banner
+            bannerDots.forEach(dot => {
+                dot.addEventListener('click', () => {
+                    bannerIndex = parseInt(dot.getAttribute('data-index'));
+                    updateBannerCarousel();
+                    
+                    // Reset interval on manual navigation
+                    clearInterval(bannerInterval);
+                    bannerInterval = setInterval(() => {
+                        bannerIndex = (bannerIndex + 1) % bannerCount;
+                        updateBannerCarousel();
+                    }, 3000);
+                });
+            });
+            
+            // Touch support for banner carousel
+            let bannerTouchStartX = 0;
+            let bannerTouchEndX = 0;
+            let isBannerSwiping = false;
+            
+            bannerTrack.addEventListener('touchstart', (e) => {
+                bannerTouchStartX = e.changedTouches[0].screenX;
+                isBannerSwiping = true;
                 clearInterval(bannerInterval);
+                
+                // Improve responsiveness by removing transition
+                bannerTrack.style.transition = 'none';
+            }, { passive: true });
+            
+            bannerTrack.addEventListener('touchmove', (e) => {
+                if (!isBannerSwiping) return;
+                
+                const currentX = e.changedTouches[0].screenX;
+                const diffX = currentX - bannerTouchStartX;
+                const movePercent = (diffX / window.innerWidth) * 100;
+                
+                // Provide visual feedback during swipe
+                if (Math.abs(diffX) > 10) {
+                    bannerTrack.style.transform = `translateX(calc(-${bannerIndex * 100}% + ${movePercent}px))`;
+                }
+            }, { passive: true });
+            
+            bannerTrack.addEventListener('touchend', (e) => {
+                bannerTouchEndX = e.changedTouches[0].screenX;
+                isBannerSwiping = false;
+                
+                // Restore transition
+                bannerTrack.style.transition = '';
+                
+                handleBannerSwipe();
+                
+                // Resume autoplay after interaction
                 bannerInterval = setInterval(() => {
                     bannerIndex = (bannerIndex + 1) % bannerCount;
                     updateBannerCarousel();
                 }, 3000);
-            });
-        });
-        
-        // Touch support for banner carousel
-        let bannerTouchStartX = 0;
-        let bannerTouchEndX = 0;
-        let isBannerSwiping = false;
-        
-        bannerTrack.addEventListener('touchstart', (e) => {
-            bannerTouchStartX = e.changedTouches[0].screenX;
-            isBannerSwiping = true;
-            clearInterval(bannerInterval);
+            }, { passive: true });
             
-            // Improve responsiveness by removing transition
+            function handleBannerSwipe() {
+                const swipeThreshold = 50;
+                if (bannerTouchEndX < bannerTouchStartX - swipeThreshold) {
+                    // Swipe left (next slide)
+                    bannerIndex = (bannerIndex + 1) % bannerCount;
+                    updateBannerCarousel();
+                } else if (bannerTouchEndX > bannerTouchStartX + swipeThreshold) {
+                    // Swipe right (previous slide)
+                    bannerIndex = (bannerIndex - 1 + bannerCount) % bannerCount;
+                    updateBannerCarousel();
+                }
+            }
+        } else {
+            // On desktop, ensure track is not transformed and remove any transitions
+            bannerTrack.style.transform = 'none';
             bannerTrack.style.transition = 'none';
-        }, { passive: true });
-        
-        bannerTrack.addEventListener('touchmove', (e) => {
-            if (!isBannerSwiping) return;
-            
-            const currentX = e.changedTouches[0].screenX;
-            const diffX = currentX - bannerTouchStartX;
-            const movePercent = (diffX / window.innerWidth) * 100;
-            
-            // Provide visual feedback during swipe
-            if (Math.abs(diffX) > 10) {
-                bannerTrack.style.transform = `translateX(calc(-${bannerIndex * 100}% + ${movePercent}px))`;
-            }
-        }, { passive: true });
-        
-        bannerTrack.addEventListener('touchend', (e) => {
-            bannerTouchEndX = e.changedTouches[0].screenX;
-            isBannerSwiping = false;
-            
-            // Restore transition
-            bannerTrack.style.transition = '';
-            
-            handleBannerSwipe();
-            
-            // Resume autoplay after interaction
-            bannerInterval = setInterval(() => {
-                bannerIndex = (bannerIndex + 1) % bannerCount;
-                updateBannerCarousel();
-            }, 3000);
-        }, { passive: true });
-        
-        function handleBannerSwipe() {
-            const swipeThreshold = 50;
-            if (bannerTouchEndX < bannerTouchStartX - swipeThreshold) {
-                // Swipe left (next slide)
-                bannerIndex = (bannerIndex + 1) % bannerCount;
-                updateBannerCarousel();
-            } else if (bannerTouchEndX > bannerTouchStartX + swipeThreshold) {
-                // Swipe right (previous slide)
-                bannerIndex = (bannerIndex - 1 + bannerCount) % bannerCount;
-                updateBannerCarousel();
-            }
         }
     }
     
