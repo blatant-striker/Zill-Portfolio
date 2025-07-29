@@ -300,6 +300,12 @@ nav ul li a img {
 }
 
 /* Carousel Styles */
+.carousel-container,
+.carousel-track,
+.carousel-slide {
+    box-sizing: border-box;
+}
+
 .carousel-container {
     position: relative;
     width: 100%;

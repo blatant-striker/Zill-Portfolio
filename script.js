@@ -42,90 +42,90 @@ document.addEventListener('DOMContentLoaded', function() {
         
         // Only initialize banner carousel on mobile
         if(window.innerWidth <= 767) {
-            // Initialize banner carousel
-            function updateBannerCarousel() {
-                bannerTrack.style.transform = `translateX(-${bannerIndex * 100}%)`;
-                
-                // Update active dot
-                bannerDots.forEach(dot => dot.classList.remove('active'));
-                bannerDots[bannerIndex].classList.add('active');
-            }
+        // Initialize banner carousel
+        function updateBannerCarousel() {
+            bannerTrack.style.transform = `translateX(-${bannerIndex * 100}%)`;
             
-            // Auto-advance banner every 3 seconds
-            let bannerInterval = setInterval(() => {
-                bannerIndex = (bannerIndex + 1) % bannerCount;
+            // Update active dot
+            bannerDots.forEach(dot => dot.classList.remove('active'));
+            bannerDots[bannerIndex].classList.add('active');
+        }
+        
+        // Auto-advance banner every 3 seconds
+        let bannerInterval = setInterval(() => {
+            bannerIndex = (bannerIndex + 1) % bannerCount;
+            updateBannerCarousel();
+        }, 3000);
+        
+        // Dot navigation for banner
+        bannerDots.forEach(dot => {
+            dot.addEventListener('click', () => {
+                bannerIndex = parseInt(dot.getAttribute('data-index'));
                 updateBannerCarousel();
-            }, 3000);
-            
-            // Dot navigation for banner
-            bannerDots.forEach(dot => {
-                dot.addEventListener('click', () => {
-                    bannerIndex = parseInt(dot.getAttribute('data-index'));
-                    updateBannerCarousel();
-                    
-                    // Reset interval on manual navigation
-                    clearInterval(bannerInterval);
-                    bannerInterval = setInterval(() => {
-                        bannerIndex = (bannerIndex + 1) % bannerCount;
-                        updateBannerCarousel();
-                    }, 3000);
-                });
-            });
-            
-            // Touch support for banner carousel
-            let bannerTouchStartX = 0;
-            let bannerTouchEndX = 0;
-            let isBannerSwiping = false;
-            
-            bannerTrack.addEventListener('touchstart', (e) => {
-                bannerTouchStartX = e.changedTouches[0].screenX;
-                isBannerSwiping = true;
+                
+                // Reset interval on manual navigation
                 clearInterval(bannerInterval);
-                
-                // Improve responsiveness by removing transition
-                bannerTrack.style.transition = 'none';
-            }, { passive: true });
-            
-            bannerTrack.addEventListener('touchmove', (e) => {
-                if (!isBannerSwiping) return;
-                
-                const currentX = e.changedTouches[0].screenX;
-                const diffX = currentX - bannerTouchStartX;
-                const movePercent = (diffX / window.innerWidth) * 100;
-                
-                // Provide visual feedback during swipe
-                if (Math.abs(diffX) > 10) {
-                    bannerTrack.style.transform = `translateX(calc(-${bannerIndex * 100}% + ${movePercent}px))`;
-                }
-            }, { passive: true });
-            
-            bannerTrack.addEventListener('touchend', (e) => {
-                bannerTouchEndX = e.changedTouches[0].screenX;
-                isBannerSwiping = false;
-                
-                // Restore transition
-                bannerTrack.style.transition = '';
-                
-                handleBannerSwipe();
-                
-                // Resume autoplay after interaction
                 bannerInterval = setInterval(() => {
                     bannerIndex = (bannerIndex + 1) % bannerCount;
                     updateBannerCarousel();
                 }, 3000);
-            }, { passive: true });
+            });
+        });
+        
+        // Touch support for banner carousel
+        let bannerTouchStartX = 0;
+        let bannerTouchEndX = 0;
+        let isBannerSwiping = false;
+        
+        bannerTrack.addEventListener('touchstart', (e) => {
+            bannerTouchStartX = e.changedTouches[0].screenX;
+            isBannerSwiping = true;
+            clearInterval(bannerInterval);
             
-            function handleBannerSwipe() {
-                const swipeThreshold = 50;
-                if (bannerTouchEndX < bannerTouchStartX - swipeThreshold) {
-                    // Swipe left (next slide)
-                    bannerIndex = (bannerIndex + 1) % bannerCount;
-                    updateBannerCarousel();
-                } else if (bannerTouchEndX > bannerTouchStartX + swipeThreshold) {
-                    // Swipe right (previous slide)
-                    bannerIndex = (bannerIndex - 1 + bannerCount) % bannerCount;
-                    updateBannerCarousel();
-                }
+            // Improve responsiveness by removing transition
+            bannerTrack.style.transition = 'none';
+        }, { passive: true });
+        
+        bannerTrack.addEventListener('touchmove', (e) => {
+            if (!isBannerSwiping) return;
+            
+            const currentX = e.changedTouches[0].screenX;
+            const diffX = currentX - bannerTouchStartX;
+            const movePercent = (diffX / window.innerWidth) * 100;
+            
+            // Provide visual feedback during swipe
+            if (Math.abs(diffX) > 10) {
+                bannerTrack.style.transform = `translateX(calc(-${bannerIndex * 100}% + ${movePercent}px))`;
+            }
+        }, { passive: true });
+        
+        bannerTrack.addEventListener('touchend', (e) => {
+            bannerTouchEndX = e.changedTouches[0].screenX;
+            isBannerSwiping = false;
+            
+            // Restore transition
+            bannerTrack.style.transition = '';
+            
+            handleBannerSwipe();
+            
+            // Resume autoplay after interaction
+            bannerInterval = setInterval(() => {
+                bannerIndex = (bannerIndex + 1) % bannerCount;
+                updateBannerCarousel();
+            }, 3000);
+        }, { passive: true });
+        
+        function handleBannerSwipe() {
+            const swipeThreshold = 50;
+            if (bannerTouchEndX < bannerTouchStartX - swipeThreshold) {
+                // Swipe left (next slide)
+                bannerIndex = (bannerIndex + 1) % bannerCount;
+                updateBannerCarousel();
+            } else if (bannerTouchEndX > bannerTouchStartX + swipeThreshold) {
+                // Swipe right (previous slide)
+                bannerIndex = (bannerIndex - 1 + bannerCount) % bannerCount;
+                updateBannerCarousel();
+            }
             }
         } else {
             // On desktop, ensure track is not transformed and remove any transitions
@@ -221,16 +221,25 @@ document.addEventListener('DOMContentLoaded', function() {
         dots[currentIndex].classList.add('active');
     }
     
-    // Event listeners for navigation
-    prevButton.addEventListener('click', () => {
-        currentIndex = (currentIndex - 1 + slideCount) % slideCount;
+    // Call updateCarousel initially
+    if(carouselTrack && slides.length > 0) {
         updateCarousel();
-    });
+    }
     
-    nextButton.addEventListener('click', () => {
-        currentIndex = (currentIndex + 1) % slideCount;
-        updateCarousel();
-    });
+    // Event listeners for navigation
+    if(prevButton) {
+        prevButton.addEventListener('click', () => {
+            currentIndex = (currentIndex - 1 + slideCount) % slideCount;
+            updateCarousel();
+        });
+    }
+    
+    if(nextButton) {
+        nextButton.addEventListener('click', () => {
+            currentIndex = (currentIndex + 1) % slideCount;
+            updateCarousel();
+        });
+    }
     
     // Dot navigation
     dots.forEach(dot => {
@@ -241,10 +250,22 @@ document.addEventListener('DOMContentLoaded', function() {
     });
     
     // Auto-advance carousel every 5 seconds
-    let autoplayInterval = setInterval(() => {
-        currentIndex = (currentIndex + 1) % slideCount;
-        updateCarousel();
-    }, 5000);
+    let autoplayInterval;
+    
+    function startAutoplay() {
+        // Clear any existing interval first
+        clearInterval(autoplayInterval);
+        
+        autoplayInterval = setInterval(() => {
+            currentIndex = (currentIndex + 1) % slideCount;
+            updateCarousel();
+        }, 5000);
+    }
+    
+    // Start autoplay initially
+    if(carouselTrack && slides.length > 1) {
+        startAutoplay();
+    }
     
     // Pause autoplay on hover
     carouselTrack.addEventListener('mouseenter', () => {
@@ -253,10 +274,7 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Resume autoplay on mouse leave
     carouselTrack.addEventListener('mouseleave', () => {
-        autoplayInterval = setInterval(() => {
-            currentIndex = (currentIndex + 1) % slideCount;
-            updateCarousel();
-        }, 5000);
+        startAutoplay();
     });
     
     // Touch support for mobile
@@ -306,10 +324,7 @@ document.addEventListener('DOMContentLoaded', function() {
         isSwiping = false;
         
         // Resume autoplay after interaction
-        autoplayInterval = setInterval(() => {
-            currentIndex = (currentIndex + 1) % slideCount;
-            updateCarousel();
-        }, 5000);
+        startAutoplay();
     }, { passive: true });
     
     function handleSwipe() {
@@ -322,16 +337,14 @@ document.addEventListener('DOMContentLoaded', function() {
             if (touchEndX < touchStartX) {
                 // Swipe left
                 currentIndex = Math.min(currentIndex + 1, slideCount - 1);
-                updateCarousel();
             } else {
                 // Swipe right
                 currentIndex = Math.max(currentIndex - 1, 0);
-                updateCarousel();
             }
-        } else {
-            // If not a valid swipe, reset to current slide
-            updateCarousel();
         }
+        
+        // Always update carousel after swipe handling
+        updateCarousel();
     }
     
     // Image Expansion Functionality
@@ -784,3 +797,17 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 }); 
+
+    // Ensure carousel is properly initialized after all content is loaded
+    window.addEventListener('load', function() {
+        if(carouselTrack && slides.length > 0) {
+            // Reset to first slide
+            currentIndex = 0;
+            updateCarousel();
+            
+            // Restart autoplay
+            if(slides.length > 1) {
+                startAutoplay();
+            }
+        }
+    }); 
